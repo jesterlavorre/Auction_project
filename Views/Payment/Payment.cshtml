@@ -1,0 +1,77 @@
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IepProjekat.Models.View.TokenOrders; 
+
+@{
+    ViewData["Title"] = "Payment";
+    int num = 0;
+}
+
+
+<div class="row ">
+    <div class="col-xl-6 text-primary" align="center">
+        <h1>Please chose one token bag</h1>
+        <hr>
+        <input type="radio" id="Sliver" name="tokenbag" value="4.99">
+        <label for="male">Sliver package (5 tokens) 4.99$</label><br /><hr>
+        <input type="radio" id="Gold" name="tokenbag" value="9.99">
+        <label for="female">Gold package (10 tokens) 9.99$</label><br /><hr>
+        <input type="radio" id="Platinum" name="tokenbag" value="17.99">
+        <label for="other">Platinum package (20 tokens) 17.99$</label><hr>
+    </div>
+    <div class="col-xl-6 text-primary">
+        <h1>Please choose method to pay</h1>
+        <br><br>
+        <script src="https://www.paypal.com/sdk/js?client-id=AbueQ0cPpAujGfam_jeaUlV-xh4YcjMigkVP-ZBitVzpqIZ16NA7qilCcTeGmNK7ERsQJ0WG-1dL6tuo"></script>
+        
+        <div id="paypal"></div>
+    </div>
+</div>
+</div class="row justify-content-center text-primary">
+   <div class="col-xl-6 text-primary">
+            <h1>Transaction history</h1>  
+        </div>
+   <div class="col-xl-4">
+    <table class="table text-primary">
+    <thead>
+        <tr>
+         <th >#</th>
+         <th >Date</th>
+         <th >Bag name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in @Model.transactions){ 
+                num++;
+                <tr>
+                    <th scope="row">@num</th>
+                    <td>@item.purchaseDate</td>
+                    <td class="@item.bag.bagName">
+                        @item.bag.bagName
+                    </td>
+                </tr>  
+            }
+             </tbody>
+    </table>
+    </div>
+  
+</div>
+<div class="row justify-content-center">
+@Html.PagedListPager(Model.transactions, page => Url.Action("Payment", new { page = page }),
+    new X.PagedList.Web.Common.PagedListRenderOptionsBase
+    {
+        DisplayPageCountAndCurrentLocation = true,
+        ContainerDivClasses = new[] { "navigation" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" }
+    })
+
+    @section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+}
+
+</div>

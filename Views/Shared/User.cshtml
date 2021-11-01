@@ -1,0 +1,54 @@
+@using Microsoft.AspNetCore.Identity
+@using IepProjekat.Models.Database
+@using System.Security.Claims
+@inject SignInManager<User> signInManager
+
+@{  
+    string role = "";
+    foreach (Claim claim in User.Claims ) {
+         if(claim.Type.Equals(ClaimTypes.Role))
+        {
+             role = claim.Value;
+        }
+        if(role!="")
+            break;
+    }
+}
+
+<ul class="navbar-nav">
+    @if ( signInManager.IsSignedIn ( User ) ) {
+        @if(role == "Administrator"){
+            <li class="nav-item">
+                <a class="nav-link text-primary btn btn-dark" asp-controller="Administrator" asp-action="AuctionList">User Auctions</a>
+            </li>
+            <li>
+                &nbsp;
+            </li>
+             <li class="nav-item">
+                <a class="nav-link text-primary btn btn-dark" asp-controller="Administrator" asp-action="UserList">User List</a>
+            </li>
+        
+        }
+        @if(role != "Administrator"){
+        <li class="nav-item">
+            <a class="nav-link text-primary btn btn-dark " asp-controller="Payment" asp-action="Payment">Buy more tokens</a>
+        </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link text-primary btn btn-dark" asp-controller="User" asp-action="Profile">My Profile </a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-controller="User" asp-action="LogOut">
+                <input type="submit" class="btn btn-dark text-primary" value="Log out" />
+            </form>
+        </li>
+    } else {
+        <li class="nav-item">
+            <a class="btn btn-primary" asp-controller="User" asp-action="LogIn">Log in</a>
+        </li>
+        <li>&nbsp;</li>
+        <li class="nav-item">
+            <a class="btn btn-primary" asp-controller="User" asp-action="Register">Register</a>
+        </li>
+    }
+</ul>

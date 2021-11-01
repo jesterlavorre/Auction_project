@@ -1,0 +1,43 @@
+@model IepProjekat.Models.Database.Auction
+
+@{
+    Layout = "_Layout";
+}
+
+@{
+string base64 = Convert.ToBase64String(@Model.image);
+
+}
+
+<h1 class="text-primary"> Auctions details</h1><hr>
+
+<div class="col-sm-4 d-flex align-items-stretch">
+    <div class="card bg-primary">
+    <img  class="card-img-top" src="data:image/png;base64, @base64" alt="Card image cap" style="width:100%;height:200px;"/>
+    <div class="card-body">
+      <h5 class="card-title">Title: @Model.name</h5>
+      @if(Model.winner != null){
+          <p class="card-text">
+              Description : @Model.description <br>
+              Closed auction : @Model.closeDate<br>
+              Auction owner : @Model.owner<br>
+              Auction winner : @Model.winner</p>   
+      }
+      else {
+          <p class="card-text">
+          Description : @Model.description <br>
+          Open date : @Model.openDate<br>
+          Close date : @Model.closeDate<br>
+          Owner : @Model.owner<br></p>
+      }
+    
+      Price : @Model.currentPrice<hr>
+      @if(Model.winner == null){
+            <button type="button" class="btn btn-danger">Bid</button>
+      }
+      <a href="" type="button" class="btn btn-danger">Bid list</a>
+    </div>
+  </div>
+</div>
+
+ 

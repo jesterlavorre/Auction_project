@@ -1,0 +1,66 @@
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@model IepProjekat.Models.View.UserListModel
+@{
+    ViewData["Title"] = "User list";
+}
+
+<h1 class="text-primary">User list</h1><hr>
+
+@if(Model.userList.Any()){
+    
+    foreach(var user in Model.userList){
+        @if(user.UserName == Model.loggedInUser.UserName){
+            <div id="@user.UserName">
+                <div class = "card text-white bg-dark mb-3">
+                    <div class = "card-body bg-primary">
+                        <h5 class = "card-title">@user.UserName (@user.firstName, @user.lastName, @user.Email, @user.genre)</h5>
+                        User Id : @user.Id
+                    </div>
+                </div>
+            </div>
+        }else if(user.state != "Banned"){
+            <div id="@user.UserName">
+                <div class = "card mb-3">
+                    <div class = "card-body bg-warning">
+                        <h5 class = "card-title">@user.UserName (@user.firstName, @user.lastName, @user.Email, @user.genre)</h5>
+                         User Id : @user.Id<br><br>
+                       <button type="button" class="btn btn-danger" onclick="banUser('@user.UserName')">Ban</button>
+                   </div>
+                </div>
+            </div>
+        }else if(user.state == "Banned"){
+            <div id="@user.UserName">
+                <div class = "card  mb-3">
+                    <div class = "card-body bg-danger">
+                        <h5 class = "card-title">@user.UserName (@user.firstName, @user.lastName, @user.Email, @user.genre)</h5>
+                        User Id : @user.Id <br><br>
+                        <button type="button" class="btn btn-primary" onclick="unbanUser('@user.UserName')">Unban</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}else{
+   
+}
+
+<div class="row justify-content-center">
+@Html.PagedListPager(Model.userList, page => Url.Action("UserList", new { page = page }),
+    new X.PagedList.Web.Common.PagedListRenderOptionsBase
+    {
+        DisplayPageCountAndCurrentLocation = true,
+        ContainerDivClasses = new[] { "navigation" },
+        LiElementClasses = new[] { "page-item" },
+        PageClasses = new[] { "page-link" }
+    })
+
+    @section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+}
+
+</div>
