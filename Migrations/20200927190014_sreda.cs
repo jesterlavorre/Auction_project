@@ -2,7 +2,7 @@
 
 namespace IepProjekat.Migrations
 {
-    public partial class kurac : Migration
+    public partial class sreda : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

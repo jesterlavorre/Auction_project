@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IepProjekat.Migrations
 {
     [DbContext(typeof(IepProjekatContext))]
-    [Migration("20200927190014_kurac")]
-    partial class kurac
+    [Migration("20200927190014_sreda")]
+    partial class sreda
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
